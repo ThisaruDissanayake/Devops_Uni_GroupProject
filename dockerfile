@@ -1,24 +1,15 @@
-# Use the official Node.js image
-FROM node:20
+FROM node:20.11.0
 
-# Create app directory
-WORKDIR /usr/src/app
+WORKDIR /app
 
-# Install app dependencies
-COPY package*.json ./
+COPY package.json .
+
 RUN npm install
 
-# Bundle app source
-COPY . .
-
-# Build the app
-RUN npm run build
-
-# Install serve to serve the build
 RUN npm install -g serve
 
-# Bind to port
-EXPOSE 80
+COPY . .
 
-# Start the app
-CMD ["serve", "-s", "build"]
+EXPOSE 5173
+
+CMD ["npm", "run", "dev", "--", "--host"]
